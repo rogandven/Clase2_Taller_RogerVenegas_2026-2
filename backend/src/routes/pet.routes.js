@@ -18,6 +18,7 @@ router
   .get("/", getPetsController)
   .get("/available/", getAvailablePetsController)
   .get("/specific/:id", getPetController)
+  .post("/", regsi)
   .patch("/:id", updatePetController)
   .delete("/:id", deletePetController);
 
