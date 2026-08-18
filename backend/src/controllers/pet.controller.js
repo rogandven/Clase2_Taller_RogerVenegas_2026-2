@@ -1,7 +1,7 @@
 "use strict";
 
-import { handleErrorServer, handleSuccess } from "../handlers/responseHandlers";
-import { deletePet, getAvailablePets, getPetById, getPets, updatePet } from "../services/pet.service";
+import { handleErrorServer, handleSuccess } from "../handlers/responseHandlers.js";
+import { deletePet, getAvailablePets, getPetById, getPets, updatePet } from "../services/pet.service.js";
 
 export async function getPetsController(req, res) {
     const pets = await getPets();
