@@ -36,6 +36,21 @@ export async function getPetById(id) {
   }
 }
 
+export async function registerPet(data) {
+  try {
+    const newPet = await petRepository.create(data);
+    const saved = await petRepository.save(newPet);
+    if (saved.length !== 0) {
+      return [saved[0], "¡Mascota creada con éxito!"];
+    }
+    return [null, `Error al registrar a ${newPet?.name || data?.name || "la mascota"}`];
+  } catch (error) {
+    return [null, `Error al registrar a ${newPet?.name || data?.name || "la mascota"}`];
+  }
+}
+
+
+
 /*
 export async function getUserService(query) {
   try {
