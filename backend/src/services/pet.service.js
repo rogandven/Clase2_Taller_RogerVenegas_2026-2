@@ -30,6 +30,7 @@ export async function getPetById(id) {
     if (!pet) {
       return [null, `Mascota #${id} no encontrada`];
     }
+    return [pet, null];
   } catch (error) {
     console.error(`Error al encontrar mascota #${id}: `, error);
     return [null, `Mascota #${id} no encontrada`];
@@ -41,20 +42,54 @@ export async function registerPet(data) {
     const newPet = await petRepository.create(data);
     const saved = await petRepository.save(newPet);
     if (saved.length !== 0) {
-      return [saved[0], "¡Mascota creada con éxito!"];
+      return [saved[0], null];
     }
     return [null, `Error al registrar a ${newPet?.name || data?.name || "la mascota"}`];
   } catch (error) {
-    return [null, `Error al registrar a ${newPet?.name || data?.name || "la mascota"}`];
+    console.error("Error al registrar mascota: ", error);
+    return [null, `Error al registrar a ${data?.name || "la mascota"}`];
   }
 }
 
+export async function updatePet(id, data) {
+  try {
+    const pet = (await getPetById(id))[0];
+    if (!pet) {
+      return [null, `Mascota #${id} no encontrada`];
+    }
+    Object.assign(pet, data);
+    const updatedPet = await petRepository.save(pet);
+    if (updatedPet.length === 0) {
+      return [null, "No se actualizó ninguna mascota"];
+    }
+    return [updatedPet[0], null];
+  } catch (error) {
+    console.error(`Error al actualizar mascota #${id}: `, error);
+    return [null, `Error al actualizar a ${newPet?.name || data?.name || `#${id}` || "la mascota"}`];
+  }
+}
 
+export async function deletePet(id) {
+  try {
+    const pet = (await getPetById(id))[0];
+    if (!pet) {
+      return [null, `Mascota #${id} no encontrada`];
+    }
+    const deletedPet = await petRepository.delete(pet); 
+    if (deletePet.length !== 1) {
+      return [false, `Error al eliminar mascota #${id}`];
+    }
+    return [true, null];
+  } catch (error) {
+    console.error(`Error al eliminar mascota #${id}: `, error);
+    return [null, `Error al eliminar mascota #${id}`];
+  }
+}
 
 /*
 export async function getUserService(query) {
   try {
-    const { rut, id, email } = query;
+    const { rut, id, email } = query
 
     const userRepository = AppDataSource.getRepository(User);
 
