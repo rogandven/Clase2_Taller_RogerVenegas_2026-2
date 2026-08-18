@@ -6,6 +6,7 @@ import { deletePetController,
         getAvailablePetsController, 
         getPetController, 
         getPetsController, 
+        registerPetController, 
         updatePetController 
 } from "../controllers/pet.controller.js";
 
@@ -18,6 +19,7 @@ router
   .get("/", getPetsController)
   .get("/available/", getAvailablePetsController)
   .get("/specific/:id", getPetController)
+  .post("/", registerPetController)
   .patch("/:id", updatePetController)
   .delete("/:id", deletePetController);
 

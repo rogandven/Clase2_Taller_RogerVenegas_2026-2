@@ -1,7 +1,7 @@
 "use strict";
 
-import { handleErrorServer, handleSuccess } from "../handlers/responseHandlers";
-import { deletePet, getAvailablePets, getPetById, getPets, updatePet } from "../services/pet.service";
+import { handleErrorServer, handleSuccess } from "../handlers/responseHandlers.js";
+import { deletePet, getAvailablePets, getPetById, getPets, registerPet, updatePet } from "../services/pet.service.js";
 
 export async function getPetsController(req, res) {
     const pets = await getPets();
@@ -41,4 +41,12 @@ export async function deletePetController(req, res) {
         return handleErrorServer(res, 500, updatePet[1]);
     }
     return handleSuccess(res, 200, "¡Mascota eliminada con éxito!", deletedPet[0]);
+}
+
+export async function registerPetController(req, res) {
+    const createdPet = await registerPet(req.body);
+    if (createdPet[1]) {
+        return handleErrorServer(res, 500, createdPet[1]);
+    }
+    return handleSuccess(res, 201, "¡Mascota creada con éxito!", createdPet[0]);
 }
